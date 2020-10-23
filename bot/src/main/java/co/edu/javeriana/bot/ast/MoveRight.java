@@ -1,5 +1,7 @@
 package co.edu.javeriana.bot.ast;
 
+import java.util.Map;
+
 import org.jpavlich.bot.Bot;
 
 public class MoveRight implements ASTNode {
@@ -18,8 +20,8 @@ public class MoveRight implements ASTNode {
 
 
 	@Override
-	public Object execute() {
-		bot.right((int) number.execute());
+	public Object execute(Map<String, Object> symbolTable) {
+		bot.right((int) number.execute(symbolTable));
 		return null;
 	}
 

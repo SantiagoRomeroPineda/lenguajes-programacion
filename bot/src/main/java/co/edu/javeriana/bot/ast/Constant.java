@@ -1,5 +1,7 @@
 package co.edu.javeriana.bot.ast;
 
+import java.util.Map;
+
 public class Constant implements ASTNode {
 	private Object value;
 	
@@ -9,7 +11,7 @@ public class Constant implements ASTNode {
 	}
 
 	@Override
-	public Object execute() {
+	public Object execute(Map<String, Object> symbolTable) {
 		return this.value;
 	}
 
