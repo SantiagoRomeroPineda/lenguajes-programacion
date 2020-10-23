@@ -15,7 +15,7 @@ public class Division implements ASTNode {
 	@Override
 	public Object execute() {
 		// TODO Auto-generated method stub
-		return (int)operand1.execute() / (int)operand1.execute();
+		return (int)operand1.execute() / (int)operand2.execute();
 	}
 
 }
