@@ -26,11 +26,12 @@ grammar Bot;
 program:
 	{
 		List<ASTNode> body = new ArrayList<ASTNode>();
+		Map<String, Object> symbolTable = new HashMap<String, Object>();
 	}
 	 (sentence{body.add($sentence.node);})*
 	{
 		for(ASTNode n: body){
-			n.execute();
+			n.execute(symbolTable);
 		}
 	};
 
@@ -45,17 +46,22 @@ program:
 //	| output
 //	| comment
 //	| declaration
-//	| assign
+//	| assignment
 //	| both;
 
 sentence returns[ASTNode node]:
 	output{$node =$output.node;}
 	|comment
-	|if_else_conditional{$node =$if_else_conditional.node;}
+	| if_else_conditional{$node =$if_else_conditional.node;}
 	| down_movement {$node =$down_movement.node;}
 	| up_movement {$node =$up_movement.node;}
 	| left_movement {$node =$left_movement.node;}
-	| right_movement {$node =$right_movement.node;};
+	| right_movement {$node =$right_movement.node;}
+	| declaration{$node =$declaration.node;}
+	| assignment{$node =$assignment.node;}
+	| both {$node =$both.node;}
+	| pick {$node =$pick.node;}
+	| drop {$node =$drop.node;};
 	
 //condiciones
 condition returns[ASTNode node]:; //falta hacer todas las combinaciones de las condiciones
@@ -112,16 +118,20 @@ right_movement returns[ASTNode node]:
 down_movement returns[ASTNode node]:
 	DOWN expression SEMICOLON {$node= new MoveDown(bot,$expression.node);};
 //recoger y soltar------------------------------------------------
-pick returns[ASTNode node]: PICK SEMICOLON {};
-drop returns[ASTNode node]: DROP SEMICOLON {};
+pick returns[ASTNode node]: PICK SEMICOLON {$node= new Pick(bot);};
+drop returns[ASTNode node]: DROP SEMICOLON {$node= new Drop(bot);};
 
 
 //variables declaracion y asignacion
-//declaration: VAR ID SEMICOLON {symbolTable.put($ID.text,0);};
-//assign:
-//	ID ASSIGN (expression {symbolTable.put($ID.text, $expression.value);} |arithmetic {symbolTable.put($ID.text, $arithmetic.value);}) SEMICOLON ;
-//both:
-//	VAR ID ASSIGN (expression {symbolTable.put($ID.text, $expression.value);} |arithmetic {symbolTable.put($ID.text, $arithmetic.value);}) SEMICOLON;
+declaration returns[ASTNode node]: 
+	VAR ID SEMICOLON 
+	{$node = new  Declaration($ID.text);};
+assignment returns[ASTNode node]:
+	ID ASSIGN expression SEMICOLON 
+	{$node = new  Assignment($ID.text, $expression.node);};
+both returns[ASTNode node]:
+	VAR ID ASSIGN expression  SEMICOLON
+	{$node = new  Assignment($ID.text, $expression.node);};
 
 //impresion y lectura por pantalla
 output returns[ASTNode node]:
@@ -132,8 +142,8 @@ output returns[ASTNode node]:
 expression
 	returns[ASTNode node]:
 	dato {$node = $dato.node;}
-	| arithmetic {$node = $arithmetic.node;};
-	//| ID {};
+	| arithmetic {$node = $arithmetic.node;}
+	| ID {$node = new VarReference($ID.text);};
 
 //expresiones aritmeticas
 arithmetic
@@ -154,6 +164,7 @@ term
 	NUMBER {$node = new Constant(Integer.parseInt($NUMBER.text));}
 	| FALSE {$node = new Constant(false);}
 	| TRUE {$node = new Constant(true);}
+	| ID  {$node = new VarReference($ID.text);}
 	| PARENTHESIS arithmetic {$node =$arithmetic.node;} RIGHTPARENTHESIS;
 
 // constantes y tipos de datos
@@ -224,5 +235,6 @@ VAR: '\'';
 ID: [a-zA-z_][a-zA-z0-9_]*;
 
 WS: [ \t\r\n]+ -> skip;
+
 
 
