@@ -24,12 +24,12 @@ grammar Bot;
 program:
 	{
 		List<ASTNode> body = new ArrayList<ASTNode>();
-		Map<String, Object> symbolTable = new HashMap<String, Object>();
+		Context context= new Context();
 	}
 	 (sentence{body.add($sentence.node);})*
 	{
 		for(ASTNode n: body){
-			n.execute(symbolTable);
+			n.execute(context);
 		}
 	};
 
@@ -48,7 +48,6 @@ program:
 
 sentence returns[ASTNode node]:
 	output{$node =$output.node;}
-	|comment
 	| if_else_conditional{$node =$if_else_conditional.node;}
 	| while_cicle{$node = $while_cicle.node;}
 	| down_movement {$node =$down_movement.node;}
