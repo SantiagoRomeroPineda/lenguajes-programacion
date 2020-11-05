@@ -15,7 +15,12 @@ public class Assignment implements ASTNode {
 
 	@Override
 	public Object execute(Context context) {
-		context.declaration(name);
+		if (context.get(name)==null) {
+			
+			context.declaration(name);
+			
+		}
+		
 		context.assigment(name, expression.execute(context));
 		return null;
 	}

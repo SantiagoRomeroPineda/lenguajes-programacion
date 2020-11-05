@@ -24,6 +24,10 @@ public class Context {
 		
 	}
 	
+	public boolean existsKey(String key) {
+		return (this.variables.containsKey(key));
+	}
+	
 	public void assigment(String key, Object value) {
 		Object found = null;
 		for (Context context = this; context != null; context = context.anterior) {
@@ -37,12 +41,14 @@ public class Context {
 	}
 	
 	public Object get(String id) {
-		for(Context e = this;e!=null;e= e.anterior){
-			Object encontrado = (Object)(e.variables.get(id));
-			if(encontrado != null)
-				return encontrado;
+		Object found = null;
+		for (Context context = this; context != null; context = context.anterior) {
+			found = (Object) (context.variables.get(id));
+			if (found != null) {
+				return found;
+			}
 		}
-		return null;
+		return found;
 	}
 	
 }

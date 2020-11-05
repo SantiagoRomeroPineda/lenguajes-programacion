@@ -16,7 +16,7 @@ public class Multiplication implements ASTNode {
 	@Override
 	public Object execute(Context context) {
 		// TODO Auto-generated method stub
-		return (int)operand1.execute(context) * (int)operand2.execute(context);
+		return (float)operand1.execute(context) * (float)operand2.execute(context);
 	}
 
 }
