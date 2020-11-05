@@ -1,6 +1,5 @@
 grammar Bot;
 @header {
-
 	import org.jpavlich.bot.*;
 	import org.jpavlich.bot.Bot;
 	import co.edu.javeriana.bot.ast.*;
@@ -9,7 +8,6 @@ grammar Bot;
 }
 
 @parser::members {
-
 	Map<String, Object> symbolTable = new HashMap<String, Object>();
 	private Bot bot;
 	
@@ -35,7 +33,6 @@ program:
 		}
 	};
 
-
 //sentence:
 //	down_movement
 //	| up_movement
@@ -53,6 +50,7 @@ sentence returns[ASTNode node]:
 	output{$node =$output.node;}
 	|comment
 	| if_else_conditional{$node =$if_else_conditional.node;}
+	| while_cicle{$node = $while_cicle.node;}
 	| down_movement {$node =$down_movement.node;}
 	| up_movement {$node =$up_movement.node;}
 	| left_movement {$node =$left_movement.node;}
@@ -63,23 +61,25 @@ sentence returns[ASTNode node]:
 	| pick {$node =$pick.node;}
 	| drop {$node =$drop.node;};
 	
-//condiciones
-condition returns[ASTNode node]:; //falta hacer todas las combinaciones de las condiciones
-
+/*
+ * condition //returns [ASTNode node]:
+:	 (expression COMPARISON_EXPRESSIONS expression)*
+	|PARENTHESIS condition RIGHTPARENTHESIS
+	|NOT condition
+	|condition LOGICAL_EXPRESSIONS condition;
+*/
 if_else_conditional returns[ASTNode node]:
-	IF (expression) ARROW_RIGHT 
+	IF logic ARROW_RIGHT 
 	{
 		List<ASTNode> body = new ArrayList<ASTNode>();
+		List<ASTNode> elseBody = new ArrayList<ASTNode>();
 	}
 		(s1=sentence{body.add($s1.node);})* 
-	ELSE
-	{
-		List<ASTNode> elseBody = new ArrayList<ASTNode>();
-	} 
-		(s2=sentence{elseBody.add($s2.node);})* 
+	(ELSE
+		(s2=sentence{elseBody.add($s2.node);})*)?
 	END SEMICOLON
 	{
-		$node= new If($expression.node,body,elseBody);
+		$node= new If($logic.node,body,elseBody);
 	};
 
 
@@ -97,10 +97,17 @@ if_else_conditional returns[ASTNode node]:
 
 	
 
-//ciclos
+//ciclos 
 while_cicle returns[ASTNode node]:
-	WHILE PARENTHESIS condition RIGHTPARENTHESIS ARROW_RIGHT sentence* END SEMICOLON;
-
+	WHILE  logic  ARROW_RIGHT 
+	{
+		List<ASTNode> body = new ArrayList<ASTNode>();
+	}
+		(s1 = sentence{body.add($s1.node);})* 
+	 END SEMICOLON
+	{
+		$node = new While($logic.node,body);
+	};
 
 //funciones
 
@@ -175,6 +182,26 @@ dato
 	| TRUE {$node = new Constant(true);}
 	| NUMBER {$node = new Constant(Integer.parseInt($NUMBER.text));}
 	| FLOAT {$node = new Constant(Float.parseFloat($FLOAT.text));};
+	
+
+	
+logic returns[ASTNode node]: c1 = comparation {$node=$c1.node;} (AND c2 = comparation {$node = new And($node,$c2.node);} | logic_or {$node = new Or($node,$logic_or.node);})*;
+
+logic_or returns[ASTNode node]: OR comparation {$node=$comparation.node;} ;
+
+comparation returns[ASTNode node] :
+	/*NOT?*/	(e1 = expression {$node = $e1.node;} (
+		 LEFT		 e2 = expression	{$node = new Minor($e1.node,$e2.node);}
+	|	 RIGHT 		 e3 = expression	{$node = new Mayor($e1.node,$e3.node);}
+	|	 MINOREQ	 e4 = expression	{$node = new Minoreq($e1.node,$e4.node);}
+	|	 MAYOREQ	 e5 = expression	{$node = new Mayoreq($e1.node,$e5.node);}
+	|	 EQUAL		 e6 = expression	{$node = new Equal($e1.node,$e6.node);}
+	|	 NOTEQUAL	 e7 = expression	{$node = new Notequal($e1.node,$e7.node);})?
+	|	PARENTHESIS logic{$node=$logic.node;} RIGHTPARENTHESIS)
+	| 	not {$node=$not.node;};
+
+not returns[ASTNode node]: NOT comparation {$node = new Not($comparation.node);};
+
 
 comment: COMMENT STRING;
 
@@ -189,6 +216,7 @@ FLOAT: NUMBER '.' NUMBER*;
 BOOLEAN: '@' [t|f];
 
 COMMENT: '#';
+
 
 UP: '^';
 LEFT: '<';
@@ -225,6 +253,19 @@ NOTEQUAL: '<>';
 PARENTHESIS: '(';
 RIGHTPARENTHESIS: ')';
 
+/*
+ COMPARISON_EXPRESSIONS:
+	  MINOR
+	| MAYOR
+	| MINOREQ
+	| MAYOREQ
+	| EQUAL
+	| NOTEQUAL;
+	
+LOGICAL_EXPRESSIONS: AND|OR;
+ 
+ */
+
 DEFINE: 'define';
 
 WHILE: 'while';
@@ -235,6 +276,3 @@ VAR: '\'';
 ID: [a-zA-z_][a-zA-z0-9_]*;
 
 WS: [ \t\r\n]+ -> skip;
-
-
-
