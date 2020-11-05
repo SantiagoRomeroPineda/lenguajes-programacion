@@ -1,6 +1,5 @@
 package co.edu.javeriana.bot.ast;
 
-import java.util.Map;
 
 public class Equal implements ASTNode {
 	private ASTNode operand1;
@@ -15,9 +14,9 @@ public class Equal implements ASTNode {
 
 
 	@Override
-	public Object execute(Map<String, Object> symbolTable) {
+	public Object execute(Context context) {
 		// TODO Auto-generated method stub
-		return ( Object ) operand1.execute(symbolTable) == ( Object ) operand2.execute(symbolTable);
+		return ( Object ) operand1.execute(context) == ( Object ) operand2.execute(context);
 	}
 
 }

@@ -1,6 +1,5 @@
 package co.edu.javeriana.bot.ast;
 
-import java.util.Map;
 
 public class Declaration implements ASTNode {
 
@@ -16,8 +15,8 @@ public class Declaration implements ASTNode {
 
 
 	@Override
-	public Object execute(Map<String, Object> symbolTable) {
-		symbolTable.put(name, new Object());
+	public Object execute(Context context) {
+		context.put(name, new Object());
 		return null;
 	}
 

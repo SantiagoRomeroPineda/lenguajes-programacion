@@ -1,6 +1,5 @@
 package co.edu.javeriana.bot.ast;
 
-import java.util.Map;
 
 public class VarReference implements ASTNode {
 
@@ -14,8 +13,8 @@ public class VarReference implements ASTNode {
 
 
 	@Override
-	public Object execute(Map<String, Object> symbolTable) {
-		return symbolTable.get(name);
+	public Object execute(Context context) {
+		return context.get(name);
 		 
 	}
 

@@ -1,7 +1,6 @@
 package co.edu.javeriana.bot.ast;
 
 import java.util.List;
-import java.util.Map;
 
 public class While implements ASTNode {
 	private ASTNode condition;
@@ -14,10 +13,13 @@ public class While implements ASTNode {
 	}
 
 	@Override
-	public Object execute(Map<String, Object> symbolTable) {
-		while ((boolean) condition.execute(symbolTable)) {
+	public Object execute(Context context) {
+		
+		while ((boolean) condition.execute(context)) {
+			Context nContext = new Context(context);
+			
 			for (ASTNode n : body) {
-				n.execute(symbolTable);
+				n.execute(nContext);
 			}
 		}
 		return null;

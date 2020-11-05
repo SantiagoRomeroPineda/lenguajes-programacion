@@ -1,7 +1,5 @@
 package co.edu.javeriana.bot.ast;
 
-import java.util.Map;
-
 public class Addition implements ASTNode {
 	private ASTNode operand1;
 	private ASTNode operand2;
@@ -15,9 +13,9 @@ public class Addition implements ASTNode {
 
 
 	@Override
-	public Object execute(Map<String, Object> symbolTable) {
+	public Object execute(Context context) {
 		// TODO Auto-generated method stub
-		return (int)operand1.execute(symbolTable) + (int)operand2.execute(symbolTable);
+		return (int)operand1.execute(context) + (int)operand2.execute(context);
 	}
 
 }

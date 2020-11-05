@@ -1,7 +1,5 @@
 package co.edu.javeriana.bot.ast;
 
-import java.util.Map;
-
 import org.jpavlich.bot.Bot;
 
 public class Pick implements ASTNode {
@@ -14,7 +12,7 @@ public class Pick implements ASTNode {
 	}
 
 	@Override
-	public Object execute(Map<String, Object> symbolTable) {
+	public Object execute(Context context) {
 		bot.pick();
 		return null;
 	}

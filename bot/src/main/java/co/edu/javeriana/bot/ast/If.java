@@ -2,7 +2,6 @@
 package co.edu.javeriana.bot.ast;
 
 import java.util.List;
-import java.util.Map;
 
 public class If implements ASTNode {
 	private ASTNode condition;
@@ -21,14 +20,17 @@ public class If implements ASTNode {
 
 
 	@Override
-	public Object execute(Map<String, Object> symbolTable) {
-		if ((boolean) condition.execute(symbolTable)) {
+	public Object execute(Context context) {
+		
+		if ((boolean) condition.execute(context)) {
+			Context nContext= new Context(context);
 			for (ASTNode n : body) {
-				n.execute(symbolTable);
+				n.execute(nContext);
 			}
 		} else {
+			Context nContext= new Context(context);
 			for (ASTNode n : elseBody) {
-				n.execute(symbolTable);
+				n.execute(nContext);
 			}
 		}
 		return null;

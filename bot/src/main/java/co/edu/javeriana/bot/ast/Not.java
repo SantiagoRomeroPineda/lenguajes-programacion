@@ -1,6 +1,5 @@
 package co.edu.javeriana.bot.ast;
 
-import java.util.Map;
 
 public class Not implements ASTNode {
 	private ASTNode condition;
@@ -12,9 +11,9 @@ public class Not implements ASTNode {
 	}
 
 	@Override
-	public Object execute(Map<String, Object> symbolTable) {
+	public Object execute(Context context) {
 		
-		return !((boolean) condition.execute(symbolTable));
+		return !((boolean) condition.execute(context));
 	}
 
 }
