@@ -17,7 +17,7 @@ public class Assignment implements ASTNode {
 
 	@Override
 	public Object execute(Map<String, Object> symbolTable) {
-		System.out.println("estoy aqui");
+		//System.out.println("estoy aqui");
 		symbolTable.put(name, expression.execute(symbolTable));
 		return null;
 	}

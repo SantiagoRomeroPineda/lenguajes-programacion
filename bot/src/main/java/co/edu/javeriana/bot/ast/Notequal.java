@@ -2,22 +2,23 @@ package co.edu.javeriana.bot.ast;
 
 import java.util.Map;
 
-public class Multiplication implements ASTNode {
+public class Notequal implements ASTNode {
 	private ASTNode operand1;
 	private ASTNode operand2;
 	
 	
-	public Multiplication(ASTNode operand1, ASTNode operand2) {
+	public Notequal(ASTNode operand1, ASTNode operand2) {
 		super();
 		this.operand1 = operand1;
 		this.operand2 = operand2;
 	}
+	
 
 
 	@Override
 	public Object execute(Map<String, Object> symbolTable) {
 		// TODO Auto-generated method stub
-		return (int)operand1.execute(symbolTable) * (int)operand2.execute(symbolTable);
+		return ( Object ) operand1.execute(symbolTable) != ( Object ) operand2.execute(symbolTable);
 	}
 
 }
