@@ -18,7 +18,11 @@ public class MoveUp implements ASTNode {
 
 	@Override
 	public Object execute(Context context) {
-		bot.up((int) number.execute(context));
+		double data =  (double) number.execute(context);
+		Double newData = new Double(data);
+		int value = newData.intValue();
+
+		bot.up((int) value);
 		return null;
 	}
 }

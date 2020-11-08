@@ -19,7 +19,12 @@ public class MoveRight implements ASTNode {
 
 	@Override
 	public Object execute(Context context) {
-		bot.right((int) number.execute(context));
+
+		double data =  (double) number.execute(context);
+		Double newData = new Double(data);
+		int value = newData.intValue();
+
+		bot.right((int) value);
 		return null;
 	}
 

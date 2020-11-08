@@ -1,17 +1,22 @@
 package co.edu.javeriana.bot.ast;
 
+import java.util.List;
 
 public class Output implements ASTNode {
-	private ASTNode data;
+	private List<ASTNode> data;
 	
-	public Output(ASTNode data) {
+	public Output(List<ASTNode> data) {
 		super();
 		this.data = data;
 	}
 
 	@Override
 	public Object execute(Context context) {
-		System.out.println(data.execute(context));
+		for(ASTNode val:data) {
+			System.out.print(val.execute(context));	
+		}
+		System.out.println();
+		
 		return null;
 	}
 

@@ -20,7 +20,10 @@ public class MoveDown implements ASTNode {
 
 	@Override
 	public Object execute(Context context) {
-		bot.down((int) number.execute(context));
+		double data =  (double) number.execute(context);
+		Double newData = new Double(data);
+		int value = newData.intValue();
+		bot.down((int) value);
 		return null;
 	}
 

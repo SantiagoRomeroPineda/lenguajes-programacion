@@ -17,7 +17,7 @@ public class Notequal implements ASTNode {
 	@Override
 	public Object execute(Context context) {
 		// TODO Auto-generated method stub
-		return ( Object ) operand1.execute(context) != ( Object ) operand2.execute(context);
+		return  ( Object ) !operand1.execute(context).equals(( Object ) operand2.execute(context)) ;
 	}
 
 }

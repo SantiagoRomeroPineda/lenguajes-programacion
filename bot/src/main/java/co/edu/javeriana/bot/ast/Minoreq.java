@@ -17,7 +17,7 @@ public class Minoreq implements ASTNode {
 	@Override
 	public Object execute(Context context) {
 		// TODO Auto-generated method stub
-		return ( int ) operand1.execute(context) <= ( int ) operand2.execute(context);
+		return ( double ) operand1.execute(context) <= ( double ) operand2.execute(context);
 	}
 
 }
