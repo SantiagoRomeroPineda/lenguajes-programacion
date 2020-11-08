@@ -41,3 +41,75 @@ while v>2 ->
 end;
 $ v;
 
+> 1;
+P;
+> 2;
+D;
+
+> 2;
+V 3;
+> 2;
+< 1;
+^ 1;
+'x;
+x <- 5;
+$x;
+if 2=2  ->
+	'x;
+	x <- 10;
+	$x;
+else
+	$"ppe";
+end;
+$x;
+'v<-5;
+if @T&!(v=5) ->
+	$ v;
+	> 5;
+else
+	$ 0;
+	P;
+	while v>0 ->
+		$ v;
+		v<-v-1;
+	end;
+end;
+$2+2*4;
+'v<-5;
+$ 5+1;
+while v>2 ->
+	V v;
+	$ v;
+	v <- v-1;
+end;
+$ v;
+
+'long<-0.5;
+$ long;
+define diagonal('width,'long) ->
+
+		V long;
+		$ long;
+		> width;
+		$ width;
+	$ "diagonal terminada";
+end;
+
+define imprimir('dato, 'veces)->
+	while(veces>0)->
+		$ dato;
+		
+		veces<-veces-1;
+	end;
+end;
+
+'a<-"Vamos Siuhhh";
+
+if a = "N" & (2+3*5 >= 6) | (60-6/2 <> 8) ->
+	diagonal(5,7);
+	imprimir("IvanRene",4);
+end;
+long<-(0.25+0.50);
+$ long;
+$ a;
+
