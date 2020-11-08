@@ -1,3 +1,19 @@
+define diagonal('length) ->
+	'counter <- 0;
+	while (counter < length) ->
+		V 1;
+		> 1;
+		counter <- counter + 1;
+	end;
+	$ "diagonal terminada";
+end;
+'a;
+? a;
+if a = "N" & (2+3*5 >= 6) | (60-6/2 <> 8) ->
+	$"entro";
+	diagonal(5);
+	end;
+$ a;
 > 1;
 P;
 > 2;
