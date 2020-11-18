@@ -45,3 +45,12 @@
 (es-creciente-en-punto cuadrado -5 )
 
 ;punto 4
+
+(define (es-decreciente-en-punto f x)
+  (and (<=(f (+ x 1)) (f x)) (>=(f (- x 1)) (f x) ))
+)
+(es-decreciente-en-punto cuadrado 1 )
+(es-decreciente-en-punto cuadrado 0 )
+(es-decreciente-en-punto cuadrado -5 )
+
+;punto 5
