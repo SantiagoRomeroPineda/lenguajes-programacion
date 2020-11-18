@@ -1,3 +1,4 @@
+;los intocables
 
 ;punto 1
 (define and-l (lambda (x) 
@@ -29,8 +30,8 @@
 ;punto 2
 (define (evaluar-puntos-aux funcion lista listi)
   (cond ((> (length lista) 1)
-    (evaluar-puntos-aux funcion (cdr lista) (append  (list (list (funcion (car lista)) (car lista))) listi )))
-  (else (append  (list(list (funcion (car lista)) (car lista))) listi ))
+    (evaluar-puntos-aux funcion (cdr lista) (append listi (list (list (funcion (car lista)) (car lista)))  )))
+  (else (append listi (list(list (funcion (car lista)) (car lista)))  ))
   )
 )
 
@@ -38,7 +39,7 @@
   (evaluar-puntos-aux funcion lista (list))
 )
 (evaluar-puntos cuadrado (list 1 2 3 4))
-
+(evaluar-puntos (lambda (x) (sin x)) (list -5 -1 0 10 15))
 
 ;punto 3
 (define (es-creciente-en-punto? f x)
