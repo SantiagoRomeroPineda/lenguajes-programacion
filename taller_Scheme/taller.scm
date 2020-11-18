@@ -82,3 +82,14 @@
 (es-decreciente-en-muestra neg (list -5 -3 0 8) )
 (es-decreciente-en-muestra cuadrado (list -5 -3 0 8) )
 (es-decreciente-en-muestra neg (list -5 -3 0 1) )
+
+;punto 7
+(define (es-monotona funcion lista )
+  (or (es-creciente-en-muestra funcion lista) (es-decreciente-en-muestra funcion lista) )
+)
+
+(es-monotona id (list -5 -3 0 8))
+(es-monotona neg (list -5 -3 0 8))
+(es-monotona cuadrado (list -5 -3 0 8))
+(es-monotona cuadrado (list -5 -3))
+(es-monotona cubo (list -5 -3 0 8))
