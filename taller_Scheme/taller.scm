@@ -1,7 +1,3 @@
-;funciones auxiliares
-(define (append list1 list2)
-        (if (null? list1) list2
-            (cons (car list1) (append (cdr list1) list2))))
 
 ;punto 1
 (define and-l (lambda (x) 
@@ -31,14 +27,16 @@
 
 
 ;punto 2
-(define listica (list ))
-(define (evaluar-puntos funcion lista)
+(define (evaluar-puntos-aux funcion lista listi)
   (cond ((> (length lista) 1)
-    (append  (list (list (funcion (car lista)) (car lista))) listica )
-    (evaluar-puntos funcion (cdr lista)))
-    (else (append  (list(list (funcion (car lista)) (car lista))) listica ))
+    (evaluar-puntos-aux funcion (cdr lista) (append  (list (list (funcion (car lista)) (car lista))) listi )))
+  (else (append  (list(list (funcion (car lista)) (car lista))) listi ))
   )
-) 
+)
+
+(define (evaluar-puntos funcion lista)
+  (evaluar-puntos-aux funcion lista (list))
+)
 (evaluar-puntos cuadrado (list 1 2 3 4))
 
 
